@@ -1,0 +1,7 @@
+{
+    "hostname": "localhost",
+    "databaseName": "Feedback",
+    "username": "postgres",
+    "password": "admin",
+    "portID": "5432"
+}
