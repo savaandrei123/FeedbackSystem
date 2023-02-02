@@ -74,7 +74,8 @@ def get_faculties():
 @faculty_bp.route("/createfaculty", methods=["POST"])
 def create_faculty():
     name = request.args.get("name")
-    if Faculty.create(name):
+    years = int(request.args.get("years"))
+    if Faculty.create(name,years):
         return {"response": "faculty created"}, 200
     else:
         return {"response": "error"}, 500
@@ -84,7 +85,8 @@ def create_faculty():
 def update_faculty():
     id = int(request.args.get("id"))
     name = request.args.get("name")
-    if Faculty.update(id, name):
+    years = int(request.args.get("years"))
+    if Faculty.update(id, name, years):
         return {"response": "faculty updated"}, 200
     else:
         return {"response": "error"}, 500
@@ -103,6 +105,19 @@ def delete_faculty():
 def get_faculty_programmes():
     id = int(request.args.get("id"))
     result = Faculty.get_programmes(id)
+    return {"response": result}, 200
+
+@faculty_bp.route("/facultycourses", methods=["GET"])
+def get_faculty_courses():
+    id = int(request.args.get("id"))
+    result = Faculty.get_courses(id)
+    return {"response": result}, 200
+
+
+@faculty_bp.route("/facultyyears",methods=["GET"])
+def get_faculty_years():
+    id = int(request.args.get("id"))
+    result = Faculty.get_years(id)
     return {"response": result}, 200
 
 # PROGRAMME ENDPOINTS
@@ -141,7 +156,8 @@ def delete_programme():
 @programme_bp.route("/programmecourses", methods=["GET"])
 def get_programme_courses():
     id = int(request.args.get("id"))
-    result = Programme.get_courses(id)
+    year = int(request.args.get("year"))
+    result = Programme.get_courses(id,year)
     return {"response": result}, 200
 # COURSE ENDPOINTS
 
@@ -157,7 +173,8 @@ def create_course():
     f_end = datetime.strptime(end, '%H:%M').time()
     day = request.args.get("day")
     week_type = request.args.get("wtype")
-    if Course.create(name, professor_id, room, f_start, f_end, day, week_type):
+    year = int(request.args.get("year"))
+    if Course.create(name, professor_id, room, f_start, f_end, day, week_type, year):
         return {"response": "course created"}, 200
     else:
         return {"response": "error"}, 500
@@ -175,7 +192,8 @@ def update_course():
     f_end = datetime.strptime(end, '%H:%M').time()
     day = request.args.get('day')
     week_type = request.args.get('wtype')
-    if Course.update(id, name, professor_id, room, f_start, f_end, day, week_type):
+    year = int(request.args.get("year"))
+    if Course.update(id, name, professor_id, room, f_start, f_end, day, week_type, year):
         return {"response": "course updated"}, 200
     else:
         return {"response": "error"}, 500
@@ -193,7 +211,7 @@ def delete_course():
 @course_bp.route("/courseprofessor", methods=["GET"])
 def get_course_professor():
     id = int(request.args.get("id"))
-    result = Course.get_professor(id)
+    result = Professor.get_course_professor(id)
     return {"response": result}
 
 

@@ -53,6 +53,12 @@ class Professor(db.Model):
         professors_list = professor_schema.dump(professors)
         return professors_list
 
+    @staticmethod
+    def get_course_professor(id: int):
+        professor = Professor.query.filter(Professor.id == id)
+        professor_schema = ProfessorSchema()
+        professor_list = professor_schema.dump(professor)
+        return professor_list
 
 class ProfessorSchema(ma.SQLAlchemyAutoSchema):
     class Meta:

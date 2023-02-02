@@ -1,7 +1,6 @@
 from __init__ import db, ma
 from datetime import datetime
 from sqlalchemy import ForeignKey
-from Models.professor import Professor, ProfessorSchema
 
 
 class Course(db.Model):
@@ -15,8 +14,9 @@ class Course(db.Model):
     end = db.Column(db.Time)
     day = db.Column(db.Integer)
     week_type = db.Column(db.Integer)
+    year = db.Column(db.Integer)
 
-    def __init__(self, name: str, prof_id: int, room: str, start: datetime, end: datetime, day: int, week_type: int):
+    def __init__(self, name: str, prof_id: int, room: str, start: datetime, end: datetime, day: int, week_type: int, year: int):
         self.name = name
         self.prof_id = prof_id
         self.room = room
@@ -24,16 +24,17 @@ class Course(db.Model):
         self.end = end
         self.day = day
         self.week_type = week_type
+        self.year=year
 
     @staticmethod
-    def create(name: str, prof_id: int, room: str, start: datetime, end: datetime, day: int, week_type: int):
-        new_course = Course(name, prof_id, room, start, end, day, week_type)
+    def create(name: str, prof_id: int, room: str, start: datetime, end: datetime, day: int, week_type: int, year: int):
+        new_course = Course(name, prof_id, room, start, end, day, week_type, year)
         db.session.add(new_course)
         db.session.commit()
         return True
 
     @staticmethod
-    def update(id: int, new_name: str, new_prof_id: int, new_room: str, new_start: datetime, new_end: datetime, new_day: int, new_week_type: int):
+    def update(id: int, new_name: str, new_prof_id: int, new_room: str, new_start: datetime, new_end: datetime, new_day: int, new_week_type: int, new_year: int):
         course = Course.query.get(id)
         course.name = new_name
         course.prof_id = new_prof_id
@@ -42,6 +43,7 @@ class Course(db.Model):
         course.end = new_end
         course.day = new_day
         course.week_type = new_week_type
+        course.year = new_year
         db.session.commit()
         return True
 
@@ -50,13 +52,6 @@ class Course(db.Model):
         Course.query.filter(Course.id == id).delete()
         db.session.commit()
         return True
-
-    @staticmethod
-    def get_professor(id: int):
-        professor = Professor.query.filter(Professor.id == id)
-        professor_schema = ProfessorSchema()
-        professor_list = professor_schema.dump(professor)
-        return professor_list
 
 
 class CourseSchema(ma.SQLAlchemyAutoSchema):

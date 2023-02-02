@@ -45,8 +45,8 @@ class Programme(db.Model):
             return False
 
     @staticmethod
-    def get_courses(id: int):
-        courses = Course.query.filter(Course.id == id)
+    def get_courses(id: int,year: int):
+        courses = Course.query.filter(Course.id == id).filter(Course.year == year)
         course_schema = CourseSchema(many=True)
         courses_list = course_schema.dump(courses)
         return courses_list
