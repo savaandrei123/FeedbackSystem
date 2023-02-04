@@ -62,14 +62,14 @@ class Faculty(db.Model):
         courses_list = []
         programmes = Faculty.get_programmes(id)
         for prg in programmes:
-            prg_courses = Programme.get_courses()
+            prg_courses = Programme.get_courses(prg["id"],0)
             for course in prg_courses:
                 courses_list.append(course)
         return courses_list
 
     @staticmethod
     def get_years(id:int):
-        faculty = Faculty.query.filter(Faculty.id == id)
+        faculty = Faculty.query.filter(Faculty.id == id).first()
         if faculty:
             return faculty.years
 

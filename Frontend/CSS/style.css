@@ -23,7 +23,8 @@ h1{
 }
 .center-screen {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  /* justify-content: center; */
   text-align: center;
   min-height: 100vh;
 }
@@ -47,6 +48,21 @@ cursor: pointer;
 .hide{
   display: none;
 }
+/* //////////////////////// */
+input,
+textarea,
+select {
+  min-width: 90%;
+  padding: 10px;
+  margin-bottom: 10px;
+  outline: none;
+  font-size: 25px;
+  border: none;
+}
+.spanText{
+  font-size: 36px;
+}
+
 
 @media only screen and (max-width: 1000px) {
   .grid-container {
@@ -72,17 +88,3 @@ cursor: pointer;
 
 
 
-/* //////////////////////// */
-input,
-textarea,
-select {
-  min-width: 90%;
-  padding: 10px;
-  margin-bottom: 10px;
-  outline: none;
-  font-size: 25px;
-  border: none;
-}
-.spanText{
-  font-size: 36px;
-}

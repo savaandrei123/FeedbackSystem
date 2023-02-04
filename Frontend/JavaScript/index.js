@@ -8,7 +8,7 @@ function getFaculties(){
     console.log(complete_response.response)
     data=``
     complete_response.response.forEach(faculty => {
-      data += `<button onclick='redirect(${faculty.id})' class="box">${faculty.name}</div>`
+      data += `<button onclick='redirect(${faculty.id})' class="box">${faculty.name}</button>`
     }); 
     document.getElementById("faculties").innerHTML=data
   })
@@ -16,6 +16,6 @@ function getFaculties(){
 
 
 function redirect(id){
-  selected_faculty_id = id
+  localStorage.setItem('selected_faculty_id',id)
   window.location.href = "./courses.html";
 }

@@ -37,6 +37,6 @@ class ProgrammeCourses(db.Model):
             return False
 
 
-class ProfessorSchema(ma.SQLAlchemyAutoSchema):
+class ProgrammeCoursesSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = ProgrammeCourses

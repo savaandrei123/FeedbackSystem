@@ -1,7 +1,7 @@
 from __init__ import db, ma
 from sqlalchemy import ForeignKey
 from Models.course import Course, CourseSchema
-
+from Models.programmeCourses import ProgrammeCoursesSchema,ProgrammeCourses
 
 class Programme(db.Model):
     __tablename__ = "programmes"
@@ -46,12 +46,26 @@ class Programme(db.Model):
 
     @staticmethod
     def get_courses(id: int,year: int):
-        courses = Course.query.filter(Course.id == id).filter(Course.year == year)
+        ids = Programme.get_courses_ids(id)
+        if year == 0:
+            courses = Course.query.filter(Course.id in ids)
+        else:
+            courses = Course.query.filter(Course.id in ids).filter(Course.year == year)
         course_schema = CourseSchema(many=True)
         courses_list = course_schema.dump(courses)
         return courses_list
-
-
+    
+    @staticmethod
+    def get_courses_ids(id: int):
+        ids = []
+        courses_id = ProgrammeCourses.query.get(id).all()
+        programme_courses_schema = ProgrammeCoursesSchema(many = True)
+        courses_id_list = programme_courses_schema.dump(courses_id)
+        print (courses_id_list)
+        for relation in courses_id_list:
+            ids.append(relation["course_id"])
+        return ids
+    
 class ProgrammeSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Programme
