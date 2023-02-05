@@ -24,34 +24,47 @@ class Course(db.Model):
         self.end = end
         self.day = day
         self.week_type = week_type
-        self.year=year
+        self.year = year
 
     @staticmethod
     def create(name: str, prof_id: int, room: str, start: datetime, end: datetime, day: int, week_type: int, year: int):
-        new_course = Course(name, prof_id, room, start, end, day, week_type, year)
-        db.session.add(new_course)
-        db.session.commit()
-        return True
+        try:
+            new_course = Course(name, prof_id, room, start,
+                                end, day, week_type, year)
+            db.session.add(new_course)
+            db.session.commit()
+            return True
+        except Exception as e:
+            print(e)
+            return False
 
     @staticmethod
     def update(id: int, new_name: str, new_prof_id: int, new_room: str, new_start: datetime, new_end: datetime, new_day: int, new_week_type: int, new_year: int):
-        course = Course.query.get(id)
-        course.name = new_name
-        course.prof_id = new_prof_id
-        course.room = new_room
-        course.start = new_start
-        course.end = new_end
-        course.day = new_day
-        course.week_type = new_week_type
-        course.year = new_year
-        db.session.commit()
-        return True
+        try:
+            course = Course.query.get(id)
+            course.name = new_name
+            course.prof_id = new_prof_id
+            course.room = new_room
+            course.start = new_start
+            course.end = new_end
+            course.day = new_day
+            course.week_type = new_week_type
+            course.year = new_year
+            db.session.commit()
+            return True
+        except Exception as e:
+            print(e)
+            return False
 
     @staticmethod
     def delete(id: int):
-        Course.query.filter(Course.id == id).delete()
-        db.session.commit()
-        return True
+        try:
+            Course.query.filter(Course.id == id).delete()
+            db.session.commit()
+            return True
+        except Exception as e:
+            print(e)
+            return False
 
 
 class CourseSchema(ma.SQLAlchemyAutoSchema):

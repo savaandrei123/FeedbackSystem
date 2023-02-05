@@ -1,7 +1,8 @@
 from __init__ import db, ma
 from sqlalchemy import ForeignKey
 from Models.course import Course, CourseSchema
-from Models.programmeCourses import ProgrammeCoursesSchema,ProgrammeCourses
+from Models.programmeCourses import ProgrammeCoursesSchema, ProgrammeCourses
+
 
 class Programme(db.Model):
     __tablename__ = "programmes"
@@ -21,7 +22,8 @@ class Programme(db.Model):
             db.session.add(new_prog)
             db.session.commit()
             return True
-        except:
+        except Exception as e:
+            print(e)
             return False
 
     @staticmethod
@@ -32,7 +34,8 @@ class Programme(db.Model):
             programme.faculty_id = new_faculty_id
             db.session.commit()
             return True
-        except:
+        except Exception as e:
+            print(e)
             return False
 
     @staticmethod
@@ -41,31 +44,42 @@ class Programme(db.Model):
             Programme.query.filter(Programme.id == id).delete()
             db.session.commit()
             return True
-        except:
+        except Exception as e:
+            print(e)
             return False
 
     @staticmethod
-    def get_courses(id: int,year: int):
-        ids = Programme.get_courses_ids(id)
-        if year == 0:
-            courses = Course.query.filter(Course.id in ids)
-        else:
-            courses = Course.query.filter(Course.id in ids).filter(Course.year == year)
-        course_schema = CourseSchema(many=True)
-        courses_list = course_schema.dump(courses)
-        return courses_list
-    
+    def get_courses(id: int, year: int):
+        try:
+            ids = Programme.get_courses_ids(id)
+            if year == 0:
+                courses = Course.query.filter(Course.id.in_(ids)).all()
+            else:
+                courses = Course.query.filter(
+                    Course.id.in_(ids)).filter(Course.year == year).all()
+            course_schema = CourseSchema(many=True)
+            courses_list = course_schema.dump(courses)
+            return courses_list
+        except Exception as e:
+            print(e)
+            return "error"
+
     @staticmethod
     def get_courses_ids(id: int):
-        ids = []
-        courses_id = ProgrammeCourses.query.get(id).all()
-        programme_courses_schema = ProgrammeCoursesSchema(many = True)
-        courses_id_list = programme_courses_schema.dump(courses_id)
-        print (courses_id_list)
-        for relation in courses_id_list:
-            ids.append(relation["course_id"])
-        return ids
-    
+        try:
+            ids = []
+            courses_id = ProgrammeCourses.query.filter(
+                ProgrammeCourses.programme_id == id).all()
+            programme_courses_schema = ProgrammeCoursesSchema(many=True)
+            courses_id_list = programme_courses_schema.dump(courses_id)
+            for relation in courses_id_list:
+                ids.append(relation["id"])
+            return ids
+        except Exception as e:
+            print(e)
+            return "error"
+
+
 class ProgrammeSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Programme

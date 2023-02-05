@@ -75,7 +75,7 @@ def get_faculties():
 def create_faculty():
     name = request.args.get("name")
     years = int(request.args.get("years"))
-    if Faculty.create(name,years):
+    if Faculty.create(name, years):
         return {"response": "faculty created"}, 200
     else:
         return {"response": "error"}, 500
@@ -107,6 +107,7 @@ def get_faculty_programmes():
     result = Faculty.get_programmes(id)
     return {"response": result}, 200
 
+
 @faculty_bp.route("/facultycourses", methods=["GET"])
 def get_faculty_courses():
     id = int(request.args.get("id"))
@@ -114,7 +115,7 @@ def get_faculty_courses():
     return {"response": result}, 200
 
 
-@faculty_bp.route("/facultyyears",methods=["GET"])
+@faculty_bp.route("/facultyyears", methods=["GET"])
 def get_faculty_years():
     id = int(request.args.get("id"))
     result = Faculty.get_years(id)
@@ -157,7 +158,7 @@ def delete_programme():
 def get_programme_courses():
     id = int(request.args.get("id"))
     year = int(request.args.get("year"))
-    result = Programme.get_courses(id,year)
+    result = Programme.get_courses(id, year)
     return {"response": result}, 200
 # COURSE ENDPOINTS
 

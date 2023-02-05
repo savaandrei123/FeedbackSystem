@@ -15,12 +15,16 @@ class Week(db.Model):
 
     @staticmethod
     def insert(start, weeks):
-        weeks_list = calculate_weeks(start, weeks)
-        for interval in weeks_list:
-            new_week = Week(interval[0], interval[1])
-            db.session.add(new_week)
-        db.session.commit()
-        return True
+        try:
+            weeks_list = calculate_weeks(start, weeks)
+            for interval in weeks_list:
+                new_week = Week(interval[0], interval[1])
+                db.session.add(new_week)
+            db.session.commit()
+            return True
+        except Exception as e:
+            print(e)
+            return False
 
 
 class WeekSchema(ma.SQLAlchemyAutoSchema):

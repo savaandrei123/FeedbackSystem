@@ -24,7 +24,8 @@ class ProgrammeCourses(db.Model):
                 db.session.add(new_relationship)
                 db.session.commit()
                 return True
-        except:
+        except Exception as e:
+            print(e)
             return False
 
     @staticmethod
@@ -33,7 +34,8 @@ class ProgrammeCourses(db.Model):
             ProgrammeCourses.query.filter(ProgrammeCourses.id == id).delete()
             db.session.commit()
             return True
-        except:
+        except Exception as e:
+            print(e)
             return False
 
 

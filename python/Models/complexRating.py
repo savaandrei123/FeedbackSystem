@@ -41,7 +41,8 @@ class ComplexRating(db.Model):
             db.session.add(new_rating)
             db.session.commit()
             return True
-        except:
+        except Exception as e:
+            print(e)
             return False
 
     @staticmethod
