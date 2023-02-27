@@ -9,19 +9,35 @@
 
   <title>Document</title>
 </head>
-<body onload="getProgrammes(),getYear(),getCourses()">
-  <h1>Feedback ++</h1>
-  <div class="center-screen">  
+<body onload="getProgrammes(),getCourses()" class="center-screen">
 
-  <label class="spanText" for="year">An:
-    <select onchange="filterCourses()"  name="year" id="years"></select>
+  <header class="header-grid">
+    <img src="../Photos/unitbvLogo.png" class="logo" alt="">
+    <h1 class="header-title">Caută curs</h1>
+    <div class="header-logo-title"><p>Universitatea</p> <p>Transilvania</p> <p>din Bra&#351;ov</p> <div>
+  </header>
+  
+  <div class="filter-flex-container">
+  <label class="label-text-year" for="year">An:
+    <select onchange="filterCourses()"  name="year" id="years">
+      <option value="0">Toti</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+    </select>
+    
   </label>
 
-  <label class="spanText" for="programme">Specializare:
+  <label class="label-text-programme" for="programme">Specializare:
     <select onchange="filterCourses()" name="programme" id="programmes"></select>
+    
   </label>
-  <div id="courses"></div>
 </div>
+  <div id="courses"></div>
+
 
 
 </body>
